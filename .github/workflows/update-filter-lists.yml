@@ -1,0 +1,41 @@
+name: Update filter lists
+
+on:
+  schedule:
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/fetch-lists.js"
+      - ".github/workflows/update-filter-lists.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weblock-filter-list-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Download upstream filter lists
+        run: node scripts/fetch-lists.js
+
+      - name: Commit updated lists
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "chore(filters): refresh upstream filter lists"
+          file_pattern: "filter-lists/*.txt"
+          commit_user_name: github-actions[bot]
+          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
