@@ -1,0 +1,70 @@
+name: Build WeBlock extension
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - "src/**"
+      - "scripts/**"
+      - "filter-lists/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/build-extension.yml"
+      - ".github/workflows/update-filter-lists.yml"
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Update filter lists"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: weblock-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch || github.ref_name }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Build extension
+        run: npm run build
+
+      - name: Validate extension output
+        run: npm run validate
+
+      - name: Create installable ZIP
+        run: cd dist && zip -qr ../WeBlock-Chrome-Extension.zip .
+
+      - name: Upload unpacked extension artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: WeBlock-Chrome-Extension
+          path: dist/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Publish rolling GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          tag_name: latest-build
+          name: Latest WeBlock build
+          prerelease: false
+          make_latest: true
+          files: WeBlock-Chrome-Extension.zip
+          fail_on_unmatched_files: true
+          overwrite_files: true
