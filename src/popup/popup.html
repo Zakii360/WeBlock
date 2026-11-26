@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WeBlock</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" role="presentation">
+          <path d="M16 3.5 27 7.7v7.9c0 6.2-4.3 10.8-11 13-6.7-2.2-11-6.8-11-13V7.7L16 3.5Z" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"/>
+          <path d="m9.8 16.5 4.1 4.1 8.5-9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="brand-copy">
+        <div class="brand-name">WeBlock</div>
+        <div class="brand-subtitle">A quieter web.</div>
+      </div>
+      <span class="version">1.0</span>
+    </header>
+
+    <section class="power-card" aria-labelledby="power-heading">
+      <div class="power-copy">
+        <div class="eyebrow">PROTECTION</div>
+        <h1 id="power-heading">Ad blocking</h1>
+        <p id="power-description">WeBlock is protecting this browser.</p>
+      </div>
+      <button class="switch" id="power-toggle" type="button" role="switch" aria-checked="true" aria-label="Turn WeBlock on or off">
+        <span class="switch-thumb"></span>
+      </button>
+    </section>
+
+    <section class="site-card" aria-labelledby="site-heading">
+      <div class="site-copy">
+        <div class="site-icon" aria-hidden="true">◎</div>
+        <div class="site-text">
+          <h2 id="site-heading">This website</h2>
+          <p id="site-host">Checking current tab…</p>
+        </div>
+      </div>
+      <button id="site-toggle" class="site-button" type="button" disabled>Pause</button>
+    </section>
+
+    <section class="stats" aria-label="Blocking statistics">
+      <div class="stat">
+        <div class="stat-value" id="page-count">—</div>
+        <div class="stat-label">On this page</div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <div class="stat-value" id="total-count">—</div>
+        <div class="stat-label">Blocked total</div>
+      </div>
+    </section>
+    <p class="counter-note" id="counter-note">Request counters are available in unpacked developer builds.</p>
+
+    <footer class="footer">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">Loading protection status…</span>
+      <span class="footer-spacer"></span>
+      <span id="updated-text">Filter sync pending</span>
+    </footer>
+    <div class="error" id="error-message" role="status" hidden></div>
+  </main>
+  <script src="popup.js"></script>
+</body>
+</html>

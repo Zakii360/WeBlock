@@ -1,0 +1,31 @@
+/* WeBlock's conservative fallback selectors. Filter-list cosmetic rules are generated separately. */
+[data-weblock-hidden="1"],
+[data-ad-slot],
+[data-ad-client],
+ins.adsbygoogle,
+.adsbygoogle,
+iframe[src*="doubleclick.net"],
+iframe[src*="googlesyndication.com"],
+iframe[src*="adservice.google.com"],
+[aria-label="Advertisement"],
+[aria-label="advertisement"],
+[aria-label="Sponsored"],
+[aria-label="sponsored"],
+[data-testid="ad"],
+[data-testid="sponsored"],
+[data-text-ad],
+#tads,
+#tadsb,
+.ytd-display-ad-renderer,
+ytd-ad-slot-renderer,
+ytd-promoted-sparkles-web-renderer,
+ytd-in-feed-ad-layout-renderer,
+#player-ads,
+#masthead-ad,
+.ytp-ad-module,
+.ytp-ad-overlay-container,
+.ytp-ad-player-overlay,
+.ytp-ad-progress-list {
+  display: none !important;
+  visibility: hidden !important;
+}
